@@ -1,10 +1,12 @@
 import express from 'express';
 import { initHandlers } from './handlers/handler';
 import { AppDataSource } from './db/database';
+import bodyParser from 'body-parser';
 const app = async () => {
     const app = express();
     const port = 3000;
     app.use(express.json());
+    app.use(bodyParser.json({ limit: '50mb' , type: 'application/*+json' }))
 
     initHandlers(app);
 
