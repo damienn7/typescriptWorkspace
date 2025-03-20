@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "npx nodemon -e ts --exec ts-node main.ts",
+    "start:dev": "npx nodemon -e ts --exec ts-node src/main.ts",
     "start:dev:ts": "nodemon --ext ts --exec \"tsc && node ./dist/main.ts\"",
     "build": "tsc"
   },

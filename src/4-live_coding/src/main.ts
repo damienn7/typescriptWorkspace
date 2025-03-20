@@ -1,6 +1,6 @@
 import express from 'express';
-import { initHandlers } from './src/handlers/handler';
-import { AppDataSource } from './src/db/database';
+import { initHandlers } from './handlers/handler';
+import { AppDataSource } from './db/database';
 const app = async () => {
     const app = express();
     const port = 3000;
