@@ -2,7 +2,7 @@ import { Application, Request, Response } from 'express';
 import { GetProductValidation } from './validators/get.product';
 import { AppDataSource } from '../db/database';
 import { Product } from '../db/models/product';
-import { PatchProductValidation } from './validators/patch.product';
+import { PatchProductValidationId, PatchProductValidationName, PatchProductValidationPrice } from './validators/patch.product';
 
 export const initHandlers = (app: Application) => {
     app.get("/ping", (request: Request, response: Response) => {
@@ -50,7 +50,7 @@ export const initHandlers = (app: Application) => {
                 return;
             }
 
-            const removed = await productRepository.delete(product);
+            const removed = await productRepository.remove(product);
 
             response.status(200).send({message: `product removed with success : ${JSON.stringify(removed)}`});
         } catch (error) {
@@ -67,7 +67,7 @@ export const initHandlers = (app: Application) => {
                 return;
             }
 
-            const validProduct = PatchProductValidation.validate(request.params);
+            const validProduct = PatchProductValidationId.validate(request.params);
             if (validProduct.error) {
                 response.status(400).send({ message: validProduct.error.details });
                 return;
@@ -92,11 +92,21 @@ export const initHandlers = (app: Application) => {
                 switch (key) {
                     case 'name':
                         // make validator
-                        productInst.name = value as string;
+                        const validProductName = PatchProductValidationName.validate({name: value});
+                        if (validProductName.error) {
+                            response.status(400).send({ message: validProductName.error.details });
+                            return;
+                        }
+                        productInst.name = validProductName.value.name;
                         break;
                     case 'price':
                         // make validator
-                        productInst.price = value as number;
+                        const validProductPrice = PatchProductValidationPrice.validate({price: value});
+                        if (validProductPrice.error) {
+                            response.status(400).send({ message: validProductPrice.error.details });
+                            return;
+                        }
+                        productInst.price = validProductPrice.value.price;
                         break;
                     default:
                        break;
@@ -113,4 +123,14 @@ export const initHandlers = (app: Application) => {
             return;
         }
     });
+
+    app.post("/auth/signup", async  () => {
+        try {
+            
+        } catch (error) {
+            
+        } finally {
+            
+        }
+    })
 };

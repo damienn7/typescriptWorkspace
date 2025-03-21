@@ -13,8 +13,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/typescript": "^0.4.29",
     "axios": "^1.8.4",
+    "bcrypt": "^5.1.1",
     "express": "^4.21.2",
     "joi": "^17.13.3",
     "pg": "^8.14.1",
