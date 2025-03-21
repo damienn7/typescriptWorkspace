@@ -3,11 +3,15 @@ import { GetProductValidation } from './validators/get.product';
 import { AppDataSource } from '../db/database';
 import { Product } from '../db/models/product';
 import { PatchProductValidationId, PatchProductValidationName, PatchProductValidationPrice } from './validators/patch.product';
+import { authMiddleware } from '../middleware/auth';
 
 export const initHandlers = (app: Application) => {
     app.get("/ping", (request: Request, response: Response) => {
         response.send({"message": "Hello world"})
     });
+
+    // adding a middleware on an resource url
+    app.get("/products/:id", authMiddleware);
 
     app.get("/products/:id", async (request: Request, response: Response) => {
         try {
@@ -130,7 +134,7 @@ export const initHandlers = (app: Application) => {
         } catch (error) {
             
         } finally {
-            
+
         }
     })
 };

@@ -1,19 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm"
-import { Token } from "./token"
+import { Jwt } from "jsonwebtoken"
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, CreateDateColumn, UpdateDateColumn, ManyToOne } from "typeorm"
+import { User } from "./user"
 
 @Entity({name: "user"})
-export class User {
+export class Token {
     @PrimaryGeneratedColumn()
     public id: number
 
     @Column()
-    public email: string
+    public token: string
 
-    @Column()
-    public password: string
-
-    @OneToMany(() => Token, (token) => token.token)
-    tokens: Token[]
+    @ManyToOne(() => User, (user) => user.tokens)
+    public userId: User
 
     @CreateDateColumn({ type: "timestamptz" })
     public createdAt: Date // timestamp with timezone -> timestamptz
@@ -23,16 +21,14 @@ export class User {
 
     constructor(
         id: number,
-        email: string,
-        password: string,
-        tokens: Token[],
+        token: string,
+        userId: User,
         createdAt: Date,
         updatedAt: Date
     ) {
         this.id = id;
-        this.password = password;
-        this.email = email;
-        this.tokens = tokens;
+        this.token = token;
+        this.userId = userId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
